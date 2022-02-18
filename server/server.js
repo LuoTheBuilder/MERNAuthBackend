@@ -4,7 +4,7 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
 import authRoutes from "./routes/auth.js";
-
+import errorHandler from "./middleware/Error.js";
 const app = express();
 
 app.use(bodyParser.json());
@@ -12,6 +12,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/api/auth/", authRoutes);
 app.use(cors());
+
+app.use(errorHandler);
 
 const CONNECTION_URL = process.env.URL;
 const PORT = process.env.PORT || 5000;
