@@ -3,13 +3,13 @@ import User from "../models/Users.js";
 import ErrorResponse from "../utils/errorResponse.js";
 
 export const protect = async (req, res, next) => {
-  let token;
+  let token = "";
 
   if (
     req.headers.authorization &&
-    req.headers.authorization.statsWith("Bearer")
+    req.headers.authorization.startsWith("Bearer")
   ) {
-    token = req.headers.authorization.split(" ");
+    token = req.headers.authorization.split(" ")[1];
   }
 
   if (!token) {
@@ -27,6 +27,6 @@ export const protect = async (req, res, next) => {
 
     next();
   } catch (error) {
-    return next(ErrorResponse("Not authorized to access this route.", 401));
+    return next(new ErrorResponse("Not authorized to access this route.", 401));
   }
 };
