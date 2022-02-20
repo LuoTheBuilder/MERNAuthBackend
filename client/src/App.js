@@ -18,7 +18,7 @@ const App = () => {
         <Route path="/register" component={RegisterScreen} exact />
         <Route path="/forgotpassword" component={ForgotPasswordScreen} exact />
         <Route
-          path="/passwordreset/:id"
+          path="/passwordreset/:resetToken"
           component={ResetPasswordScreen}
           exact
         />

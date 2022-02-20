@@ -15,30 +15,13 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Linkstyle color="inherit" href="https://mui.com/">
-        LuoTheBuilder
-      </Linkstyle>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import Copyright from "../Boilerplate/Copyright";
 
 const theme = createTheme();
 
 const LoginScreen = ({ history }) => {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState();
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -145,8 +128,8 @@ const LoginScreen = ({ history }) => {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Linkstyle href="#" variant="body2">
-                  Forgot password?
+                <Linkstyle variant="body2">
+                  <Link to="/forgotpassword">Forgot password?</Link>
                 </Linkstyle>
               </Grid>
               <Grid item>
