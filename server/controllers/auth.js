@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import crypto from "crypto";
 import User from "../models/Users.js";
 import ErrorResponse from "../utils/errorResponse.js";
 import sendEmail from "../utils/SendEmail.js";
@@ -84,8 +85,28 @@ export const ForgotPassword = async (req, res, next) => {
   }
 };
 
-export const resetPassword = (req, res, next) => {
-  res.send("ResetPassworRoute");
+export const resetPassword = async (req, res, next) => {
+  const resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(req.params.resetToken)
+    .digest("hex");
+
+  try {
+    const user = await User.findOne({
+      resetPasswordToken,
+      resetPasswordExpired: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      next(new ErrorResponse("Invalid reset token.", 400));
+    }
+    user.password = req.body.password;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpired = undefined;
+
+    await user.save();
+    res.status(201).json({ success: true, data: "Password reset success." });
+  } catch (error) {}
 };
 
 const sendToken = (user, statusCode, res) => {
